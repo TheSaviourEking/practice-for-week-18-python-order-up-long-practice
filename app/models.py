@@ -58,3 +58,11 @@ class MenuItemType(db.Model):
     menu_item = db.relationship(
         "MenuItem", back_populates="type", cascade="all, delete-orphan"
     )
+
+
+class Table(db.Model):
+    __tablename__ = "tables"
+
+    id = db.Column(db.Integer, primary_key=True)
+    number = db.Column(db.Integer, nullable=False, unique=True)
+    capacity = db.Column(db.Integer, nullable=False)
