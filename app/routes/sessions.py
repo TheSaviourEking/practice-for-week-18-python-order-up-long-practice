@@ -3,12 +3,13 @@ from ..forms import LoginForm
 from ..models import Employee
 
 from flask_login import current_user, login_user
+
 # from ..__init__ import current_user, login_user
 
 bp = Blueprint("session", __name__, url_prefix="/session")
 
 
-@bp.route("/")
+@bp.route("/", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for("orders.index"))
