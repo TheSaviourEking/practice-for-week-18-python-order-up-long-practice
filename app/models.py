@@ -9,7 +9,7 @@ class Employee(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     employee_number = db.Column(db.Integer, nullable=False, unique=True)
-    hashed_password = db.column(db.String(255), nullable=False)
+    hashed_password = db.Column(db.String(255), nullable=False)
 
     @property
     def password(self):
