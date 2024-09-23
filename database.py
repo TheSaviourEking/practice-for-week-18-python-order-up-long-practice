@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from app import app, db
-from app.models import Employee, Menu, MenuItem, MenuItemType, Table
+from app.models import Employee, Menu, MenuItem, MenuItemType, Table, Order, OrderDetail
 
 with app.app_context():
     db.drop_all()
@@ -55,6 +55,22 @@ with app.app_context():
             table8,
             table9,
             table10,
+        ]
+    )
+
+    db.session.add_all(
+        [
+            Employee(name="Wisdom", employee_number=1, password="password"),
+            Employee(name="Tufai", employee_number=2, password="password"),
+        ]
+    )
+
+    # Open orders
+    db.session.add_all(
+        [
+            Order(employee_id=1, table_id=8, finished=False),
+            Order(employee_id=2, table_id=4, finished=True),
+            Order(employee_id=1, table_id=1, finished=True),
         ]
     )
 

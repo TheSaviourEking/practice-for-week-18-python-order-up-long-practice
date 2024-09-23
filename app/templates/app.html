@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Order System</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="flex">
+                <h1>ASSIGN TABLE</h1>
+
+                <form action="{{ url_for('orders.assign_table', employee_id=1, table_id=2)}}" id="assignForm"
+                    method="post">
+                    {{ form.csrf_token }}
+                    <select id="open-tables">
+                        <option disabled selected>Open Tables</option>
+                        {% for id, name in form.tables.choices %}
+                        <option value="{{ id }}">{{ name }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <select id="servers">
+                        <option disabled selected>Servers</option>
+                        {% for id, employee in form.servers.choices %}
+                        <option value="{{ id }}">{{employee}}</option>
+                        {% endfor %}
+                    </select>
+
+                    {{form.assign | upper }}
+                </form>
+
+            </div>
+            {% if not current_user.is_anonymous %}
+            <form action="{{ url_for('session.logout')}}" method="POST">
+                <button id="logout" type="submit">Logout</button>
+            </form>
+            {% endif %}
+        </header>
+
+        <main>
+            <section id="open-orders">
+                <h2>YOUR OPEN ORDERS</h2>
+                <table id="orders-table">
+                    {% for order in open_orders %}
+                    <tr>
+                        <td>{{order.table }}</td>
+                        <td>$49.35</td>
+                        <td>
+                            <form action="{{url_for('orders.close_table', order_id=order.id)}}" method="post">
+                                <button type="submit">CLOSE TABLE</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="" method="post">
+                                <button type="submit">ADD TO ORDER</button>
+                            </form>
+                        </td>
+
+                        <td>
+                            <button form="food-list" formaction="">
+                                Add to order
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <!-- <tr>
+                        <td>Table 8</td>
+                        <td>$49.35</td>
+                        <td>
+                            <form action="" method="post">
+                                <button type="submit">CLOSE TABLE</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="" method="post">
+                                <button type="submit">ADD TO ORDER</button>
+                            </form>
+                        </td>
+                    </tr> -->
+                    <!-- <tr>
+                        <td>Table 3</td>
+                        <td>$21.09</td>
+                        <td><button onclick="closeTable(this)">CLOSE TABLE</button></td>
+                        <td><button onclick="addToOrder(3)">ADD TO ORDER</button></td>
+                    </tr>
+                    <tr>
+                        <td>Table 6</td>
+                        <td></td>
+                        <td></td>
+                        <td><button onclick="addToOrder(6)">ADD TO ORDER</button></td>
+                    </tr> -->
+                </table>
+            </section>
+
+            <section id="menu">
+                <h2>ENTREES</h2>
+                <div class="menu-item">
+                    <input type="checkbox" id="chicken-kiev" checked>
+                    <label for="chicken-kiev">Chicken Kiev</label>
+
+                    <input type="checkbox" id="eggplant-parmesan">
+                    <label for="eggplant-parmesan">Eggplant Parmesan</label>
+                </div>
+
+                <h2>SIDES</h2>
+                <div class="menu-item">
+                    <input type="checkbox" id="french-fries" checked>
+                    <label for="french-fries">French fries</label>
+
+                    <input type="checkbox" id="deep-fried-onions">
+                    <label for="deep-fried-onions">Deep-fried onions</label>
+                </div>
+
+                <h2>BEVERAGES</h2>
+                <div class="menu-item">
+                    <input type="checkbox" id="tea" checked>
+                    <label for="tea">Tea</label>
+
+                    <input type="checkbox" id="lingonberry-soda">
+                    <label for="lingonberry-soda">Lingonberry Soda</label>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>
